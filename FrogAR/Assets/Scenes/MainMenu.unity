@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 285406862}
   - component: {fileID: 285406861}
   m_Layer: 5
-  m_Name: Panel (1)
+  m_Name: Background Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -485,7 +485,7 @@ GameObject:
   - component: {fileID: 788371739}
   - component: {fileID: 788371738}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: FrogTextTmp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -726,7 +726,7 @@ GameObject:
   - component: {fileID: 833196320}
   - component: {fileID: 833196319}
   m_Layer: 5
-  m_Name: Panel (2)
+  m_Name: FadeEffectPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
