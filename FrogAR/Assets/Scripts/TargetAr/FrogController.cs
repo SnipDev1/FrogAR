@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TargetAr
 {
@@ -20,13 +21,12 @@ namespace TargetAr
         [SerializeField] private List<OrganController> organControllers = new();
         [SerializeField] private List<ToggleController> toggleControllers;
         [SerializeField] private ElementsController elementsController;
-        private int _amountOfActivatedOrgans = 0;
+        [SerializeField] private int amountOfActivatedOrgans = 0;
 
         private void Start()
         {
             CreateTogglesByOrganControllersLength();
-            _amountOfActivatedOrgans = organControllers.Count;
-            throw new NotImplementedException();
+            amountOfActivatedOrgans = organControllers.Count;
         }
 
         public void ActivateOrgansByCategory(OrganCategory organPoint)
@@ -36,11 +36,11 @@ namespace TargetAr
                 if (organController.organPoint == organPoint)
                 {
                     organController.ActivateAllOrgans();
-                    _amountOfActivatedOrgans++;
+                    amountOfActivatedOrgans++;
                 }
             }
 
-            Debug.Log(_amountOfActivatedOrgans);
+            Debug.Log(amountOfActivatedOrgans);
             FindActivatedGroup();
         }
 
@@ -51,17 +51,17 @@ namespace TargetAr
                 if (organController.organPoint == organPoint)
                 {
                     organController.DeactivateAllOrgans();
-                    _amountOfActivatedOrgans--;
+                    amountOfActivatedOrgans--;
                 }
             }
 
-            Debug.Log(_amountOfActivatedOrgans);
+            Debug.Log(amountOfActivatedOrgans);
             FindActivatedGroup();
         }
 
         private void FindActivatedGroup()
         {
-            if (_amountOfActivatedOrgans != 1)
+            if (amountOfActivatedOrgans != 1)
             {
                 elementsController.ResetList();
                 return;
@@ -72,7 +72,7 @@ namespace TargetAr
                 if (!organController.isActive) continue;
                 foreach (var organs in organController.organsList)
                 {
-                    elementsController.AddElement(organs.organName);
+                    elementsController.AddElement(organs.organName, organs);
                 }
             }
         }

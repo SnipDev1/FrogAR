@@ -5,14 +5,17 @@ namespace TargetAr
 {
     public class ElementsController : MonoBehaviour
     {
-        public GameObject elementPrefab;
-        public GameObject verticalLayout;
-        private List<GameObject> _listOfElements = new();
-        public void AddElement(string value)
+        [SerializeField] private GameObject elementPrefab;
+        [SerializeField] private GameObject verticalLayout;
+        private readonly List<GameObject> _listOfElements = new();
+        public void AddElement(string value, OrganController.Organs organs)
         {
-            var objectController = CreateText();
-            _listOfElements.Add(objectController);
-            objectController.GetComponentInChildren<ObjectController>().SetText(value);
+            var item = CreateText();
+            
+            _listOfElements.Add(item);
+            var objectController = item.GetComponentInChildren<ObjectController>();
+            objectController.SetText(value);
+            objectController.SetList(organs);
         }
 
         public void ResetList()

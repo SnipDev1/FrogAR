@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TargetAr
 {
@@ -15,6 +16,7 @@ namespace TargetAr
         {
             public string organName;
             public string organDescription;
+            public Sprite organImage;
             public GameObject organGameObject;
             public bool isActive;
         }
