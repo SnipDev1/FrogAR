@@ -1,2 +1,2 @@
 # FrogAR
- Проект для отборочного этапа по Технострелке
+Project for selection stage of Technostrelka
