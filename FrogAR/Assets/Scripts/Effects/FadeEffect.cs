@@ -15,7 +15,7 @@ namespace Effects
 
         private void Start()
         {
-            panelImage.color =  new Color(0, 0, 0, _opacity);
+            SetImageOpacity(_opacity);
         }
 
 
@@ -24,11 +24,11 @@ namespace Effects
             Debug.Log("Increasing Started");
             while (GetOpacity() < endOpacity)
             {
-                // Debug.Log(GetOpacity());
                 _opacity += fadeSpeed * Time.deltaTime;
-                panelImage.color = new Color(0, 0, 0, _opacity);
+                SetImageOpacity(_opacity);
                 yield return null;
             }
+            Debug.Log("Increasing stopped");
 
             _opacity = endOpacity;
         }
@@ -39,43 +39,26 @@ namespace Effects
 
             while (GetOpacity() >= startOpacity)
             {
-                // Debug.Log(GetOpacity());
                 _opacity -= fadeSpeed * Time.deltaTime;
-                panelImage.color = new Color(0, 0, 0, _opacity);
+                SetImageOpacity(_opacity);
                 yield return null;
             }
-
+            Debug.Log("Decreasing stopped");
 
             _opacity = startOpacity;
         }
 
-        /*
-        private IEnumerator SetZeroOpacity()
+        public void StartEffect()
         {
-            if (GetOpacity() < 0f)
-            {
-                while (GetOpacity() <= 0f)
-                {
-                    _colorAdjustments.postExposure.value += fadeSpeed * Time.deltaTime;
-                    yield return null;
-                }
-
-                _colorAdjustments.postExposure.value = 0f;
-            }
-            else if (GetOpacity() > 0f)
-            {
-                while (GetOpacity() >= 0f)
-                {
-                    _colorAdjustments.postExposure.value -= fadeSpeed * Time.deltaTime;
-                    yield return null;
-                }
-
-                _colorAdjustments.postExposure.value = 0f;
-            }
-
-            // StopCoroutine(nameof(SetZeroOpacity));
+            SetImageOpacity(1);
+            _opacity = 1;
+            StartCoroutine(DecreaseOpacity());
         }
-        */
+        
+        private void SetImageOpacity(float alpha)
+        {
+            panelImage.color =  new Color(0, 0, 0, alpha);
+        }
         private float GetOpacity()
         {
             return _opacity;
