@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace TargetAr
+namespace SpaceAr
 {
     public class OrganController : MonoBehaviour
     {

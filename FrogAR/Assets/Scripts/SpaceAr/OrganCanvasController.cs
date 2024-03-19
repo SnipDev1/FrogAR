@@ -1,9 +1,8 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TargetAr
+namespace SpaceAr
 {
     public class OrganCanvasController : MonoBehaviour
     {

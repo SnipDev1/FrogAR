@@ -1,95 +1,89 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace TargetAr
 {
     public class FrogController : MonoBehaviour
     {
-        public enum OrganCategory
+        [Serializable]
+        public class Organ
         {
-            Body,
-            Organs,
-            Bones,
-            Nerves,
-            Muscles
+            public string organName;
+            public GameObject organObj;
         }
 
-        [SerializeField] private GameObject toggleElementPrefab;
-        [SerializeField] private GameObject verticalLayout;
-        [SerializeField] private List<OrganController> organControllers = new();
-        [SerializeField] private List<ToggleController> toggleControllers;
-        [SerializeField] private ElementsController elementsController;
-        [SerializeField] private int amountOfActivatedOrgans = 0;
+        [SerializeField] private TextMeshPro textMeshPro;
+        [SerializeField] private List<Organ> organsList = new();
+        private int _cursor;
 
         private void Start()
         {
-            CreateTogglesByOrganControllersLength();
-            amountOfActivatedOrgans = organControllers.Count;
+            DeactivateAllObjects();
+            ActivateObjectByIndex(0);
         }
+        
 
-        public void ActivateOrgansByCategory(OrganCategory organPoint)
+        private void DeactivateAllObjects()
         {
-            foreach (var organController in organControllers)
+            foreach (var organ in organsList)
             {
-                if (organController.organPoint == organPoint)
-                {
-                    organController.ActivateAllOrgans();
-                    amountOfActivatedOrgans++;
-                }
-            }
-
-            Debug.Log(amountOfActivatedOrgans);
-            FindActivatedGroup();
-        }
-
-        public void DeactivateOrgansByCategory(OrganCategory organPoint)
-        {
-            foreach (var organController in organControllers)
-            {
-                if (organController.organPoint == organPoint)
-                {
-                    organController.DeactivateAllOrgans();
-                    amountOfActivatedOrgans--;
-                }
-            }
-
-            Debug.Log(amountOfActivatedOrgans);
-            FindActivatedGroup();
-        }
-
-        private void FindActivatedGroup()
-        {
-            if (amountOfActivatedOrgans != 1)
-            {
-                elementsController.ResetList();
-                return;
-            }
-            
-            foreach (var organController in organControllers)
-            {
-                if (!organController.isActive) continue;
-                foreach (var organs in organController.organsList)
-                {
-                    elementsController.AddElement(organs.organName, organs);
-                }
+                organ.organObj.SetActive(false);
             }
         }
 
-        private void CreateTogglesByOrganControllersLength()
+        private void ActivateObjectByIndex(int index)
         {
-            foreach (var organController in organControllers)
+            organsList[index].organObj.SetActive(true);
+            SetText(organsList[index].organName);
+        }
+
+        private void SetText(string text)
+        {
+            textMeshPro.text = text;
+        }
+
+        private void NextObject()
+        {
+            if (_cursor + 1 < organsList.Count)
             {
-                var createdObject = CreateToggle().GetComponentInChildren<ToggleController>();
-                createdObject.SetPointer(organController.organPoint);
-                toggleControllers.Add(createdObject);
+                organsList[_cursor].organObj.SetActive(false);
+                _cursor++;
+                ActivateObjectByIndex(_cursor);
+            }
+            else
+            {
+                organsList[_cursor].organObj.SetActive(false);
+                _cursor = 0;
+                ActivateObjectByIndex(_cursor);
             }
         }
 
-        private GameObject CreateToggle()
+        private void PreviousObject()
         {
-            return Instantiate(toggleElementPrefab, verticalLayout.transform);
+            if (_cursor > 0)
+            {
+                organsList[_cursor].organObj.SetActive(false);
+                _cursor--;
+                ActivateObjectByIndex(_cursor);
+            }
+            else
+            {
+                organsList[_cursor].organObj.SetActive(false);
+                _cursor = organsList.Count - 1;
+                ActivateObjectByIndex(_cursor);
+            }
+        }
+
+        public void OnNext()
+        {
+            NextObject();
+        }
+
+        public void OnPrevious()
+        {
+            PreviousObject();
         }
     }
 }
