@@ -6,6 +6,7 @@ namespace MainMenu
 {
     public class ButtonController : MonoBehaviour
     {
+        [SerializeField] private int mainMenuSceneId = 0;
         [SerializeField] private int targetSceneId = 1;
         [SerializeField] private int spaceSceneId = 2;
         [SerializeField] private FadeEffect fadeEffect;
@@ -21,6 +22,10 @@ namespace MainMenu
         {
             StartCoroutine(SpaceBtnIEnumerator());
         }
+        public void OnMainMenuBtn()
+        {
+            StartCoroutine(MainMenuBtnIEnumerator());
+        }
         
         private IEnumerator TargetBtnIEnumerator()
         {
@@ -32,6 +37,11 @@ namespace MainMenu
         {
             yield return StartCoroutine(fadeEffect.IncreaseOpacity());
             SceneController.LoadSceneAsync(spaceSceneId);
+        }
+        private IEnumerator MainMenuBtnIEnumerator()
+        {
+            yield return StartCoroutine(fadeEffect.IncreaseOpacity());
+            SceneController.LoadSceneAsync(mainMenuSceneId);
         }
 
         public void IncreaseAnimation()
